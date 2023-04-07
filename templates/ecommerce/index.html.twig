@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecommerce{% endblock %}
+
+{% block stylesheets %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      color: #333;
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    a {
+      text-decoration: none;
+      color: #0066cc;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  {% include 'nav.html.twig' %}
+
+  <h1>Welcome to the Ecommerce Application!</h1>
+
+  <p>Here you can browse and buy our products.</p>
+
+  <ul>
+    {% for product in products %}
+      <li><a href="{{ path('show_product', {'id': product.id}) }}">{{ product.name }}</a> - {{ product.price }}$</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
