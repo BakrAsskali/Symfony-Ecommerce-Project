@@ -18,7 +18,6 @@ class EcommerceController extends AbstractController
     public function index(EntityManagerInterface $entityManager): Response
     {
         $products = $entityManager->getRepository(Product::class)->findAll();
-
         return $this->render('ecommerce/index.html.twig', [
             'products' => $products,
         ]);
@@ -70,6 +69,28 @@ class EcommerceController extends AbstractController
 
         return $this->render('ecommerce/ajouterCategory.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/ecommerce/category/{id}',name:'show_category')]
+    public function showCategory($id, EntityManagerInterface $entityManager): Response
+    {
+        $category = $entityManager->getRepository(Category::class)->find($id);
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('p')
+            ->from(Product::class, 'p')
+            ->leftJoin('p.category', 'c');
+
+        if ($id) {
+            $category = $entityManager->getRepository(Category::class)->find($id);
+            $queryBuilder->where('c.name = :categoryName')
+                ->setParameter('categoryName', $category->getName());
+        }
+
+        $products = $queryBuilder->getQuery()->getResult();
+        return $this->render('ecommerce/afficherCategory.html.twig', [
+            'category' => $category,
+            'products' => $products,
         ]);
     }
 }
