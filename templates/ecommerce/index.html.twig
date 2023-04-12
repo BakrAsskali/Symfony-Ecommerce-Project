@@ -40,6 +40,7 @@
   <ul>
     {% for product in products %}
       <li><a href="{{ path('show_product', {'id': product.id}) }}">{{ product.name }}</a> - {{ product.price }}$ - <a href="{{path('show_category' , {'id':product.category.id}) }}">{{product.category.name}}</a></li>
+      <button type="button" class="btn btn-primary"><a href="{{path('delete_product',{'id':product.id})}}">Supprimer</a></button>
     {% endfor %}
   </ul>
 {% endblock %}

@@ -23,6 +23,15 @@ class EcommerceController extends AbstractController
         ]);
     }
 
+    #[Route('/ecommerce/product/{id}/delete',name:'delete_product')]
+    public function deleteProduct($id, EntityManagerInterface $entityManager): Response
+    {
+        $product = $entityManager->getRepository(Product::class)->find($id);
+        $entityManager->remove($product);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_ecommerce');
+    }
 
     #[Route('/ecommerce/product/{id}',name:'show_product')]
     public function showProduct($id, EntityManagerInterface $entityManager): Response
